@@ -1,5 +1,5 @@
 # ADMIN-DASHBOARD
-The Connect Admin Dashboard is a comprehensive set of components designed to manage the administrative interface of the "Connect" platform. This dashboard serves as a crucial tool for administrators, providing functionalities to streamline user management, content moderation, and overall system monitoring.
+This Admin Dashboard is a comprehensive set of components designed to manage the administrative interface of the "Connect" platform. This dashboard serves as a crucial tool for administrators, providing functionalities to streamline user management, content moderation, and overall system monitoring.
 
 ### Features
 Dual Themes: The dashboard supports both light and dark themes, allowing users to switch seamlessly between them. The dark mode can be activated with an elegant toggle button, enhancing usability in low-light environments.
@@ -28,42 +28,37 @@ To get started with the Connect Admin Dashboard, clone the repository and follow
 
 Clone the Repository:
 
-sh
+``` sh
 Copier le code
 git clone https://github.com/username/admin-dashboard.git
 Install Dependencies:
 Navigate to the project directory and install the necessary dependencies:
+```
 
-sh
+``` sh
 Copier le code
 cd admin-dashboard
 npm install
 Build the Project:
 Build the project to prepare for deployment:
-
-sh
+```
+``` sh
 Copier le code
 npm run build
 Start the Development Server:
 You can start the development server on port 4153 using:
-
-sh
+```
+``` sh
 Copier le code
 npm run dev
 Alternatively, to preview the built project, use:
-
-sh
+```
+``` sh
 Copier le code
 npm run preview
 Screenshots
-
-Light Theme
-
-
-Dark Theme
-
-
-Analytics and Graphs
+```
+---
 
 Contributing
 Feel free to fork this project and submit pull requests. Contributions are always welcome!
