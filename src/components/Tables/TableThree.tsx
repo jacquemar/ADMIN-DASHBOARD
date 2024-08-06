@@ -10,7 +10,7 @@ const TableThree = () => {
 
   const fetchDemandes = () => {
     // Récupérer les informations des demandes
-    axios.get('http://localhost:3000/api/demandes')
+    axios.get('https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/demandes')
       .then(response => {
         setDemandes(response.data);
         console.log(response.data);  // Affichez les données récupérées dans la console
@@ -22,7 +22,7 @@ const TableThree = () => {
 
   const handleApprove = async (demandeId) => {
     try {
-      await axios.post(`http://localhost:3000/api/demandes/${demandeId}/approve`);
+      await axios.post(`https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/demandes/${demandeId}/approve`);
       console.log('Demande approuvée avec succès!')
       // Met à jour l'état des demandes localement
       setDemandes(demandes.map(demande =>
@@ -36,7 +36,7 @@ const TableThree = () => {
 
   const handleReject = async (demandeId) => {
     try {
-      await axios.post(`http://localhost:3000/api/demandes/${demandeId}/reject`);
+      await axios.post(`https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/demandes/${demandeId}/reject`);
       console.log('Demande rejetée avec succès!')
       // Met à jour l'état des demandes localement
       setDemandes(demandes.map(demande =>
@@ -49,7 +49,7 @@ const TableThree = () => {
 
   const handleDelete = async (demandeId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/demandes/${demandeId}`);
+      await axios.delete(`https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/demandes/${demandeId}`);
       console.log('Demande supprimée avec succès!')
       // Met à jour l'état des demandes localement en supprimant la demande supprimée
       setDemandes(demandes.filter(demande => demande._id !== demandeId));

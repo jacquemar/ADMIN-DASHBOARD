@@ -12,7 +12,7 @@ const TableTwo = () => {
   }, []);
 
   const fetchUsers = () => {
-    axios.get('http://localhost:3000/api/users')
+    axios.get('https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/users')
       .then(response => {
         setUsers(response.data);
         console.log(response.data); 
@@ -24,7 +24,7 @@ const TableTwo = () => {
 
   const handleDelete = async (userId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/user/${userId}`);
+      await axios.delete(`https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/user/${userId}`);
       console.log('user supprimé avec succès!')
       setUsers(users.filter(user => user._id !== userId));
     } catch (error) {
