@@ -4,5 +4,5 @@ WORKDIR /app
 COPY . .
 RUN npm install
 RUN npm run build
-EXPOSE 5173
+EXPOSE 4173
 CMD npm run preview
