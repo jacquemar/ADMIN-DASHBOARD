@@ -8,7 +8,7 @@ const DevisList = () => {
   useEffect(() => {
     const fetchDevis = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/devis`);
+        const response = await axios.get(`https://cfmqbxpsxd.us-east-1.awsapprunner.com/devis`);
         setDevis(response.data);
       } catch (error) {
         console.error('Erreur lors de la récupération des devis:', error);
