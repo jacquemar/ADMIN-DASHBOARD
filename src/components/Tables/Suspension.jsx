@@ -10,7 +10,7 @@ const UserManagementComponent = () => {
   }, []);
 
   const fetchUsers = () => {
-    axios.get('http://localhost:3000/api/users')
+    axios.get('https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/users')
       .then(response => {
         setUsers(response.data);
         console.log(response.data);
@@ -24,7 +24,7 @@ const UserManagementComponent = () => {
   const handleToggleActive = async (userName, currentState) => {
     try {
       const endpoint = currentState ? 'deactivate-profile' : 'activate-profile';
-      await axios.patch(`http://localhost:3000/api/${endpoint}/${userName}`);
+      await axios.patch(`https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/${endpoint}/${userName}`);
       fetchUsers();
       toast.success(`Profil ${currentState ? 'désactivé' : 'activé'} avec succès`);
     } catch (error) {
@@ -35,7 +35,7 @@ const UserManagementComponent = () => {
 
   const handleToggleSuspension = async (userName, isSuspended) => {
     try {
-      await axios.patch(`http://localhost:3000/api/users/${userName}/toggle-suspension`);
+      await axios.patch(`https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/users/${userName}/toggle-suspension`);
       fetchUsers();
       toast.success(`Compte ${isSuspended ? 'réactivé' : 'suspendu'} avec succès`);
     } catch (error) {

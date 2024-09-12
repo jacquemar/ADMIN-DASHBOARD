@@ -7,7 +7,7 @@ const MessagesList = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/messages`);
+        const response = await axios.get(`https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/messages`);
         setMessages(response.data);
       } catch (error) {
         console.error('Erreur lors de la récupération des messages:', error);
