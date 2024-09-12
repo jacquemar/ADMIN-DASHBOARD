@@ -3,7 +3,8 @@ import CardDataStats from '../../components/CardDataStats';
 import ChartOne from '../../components/Charts/ChartOne';
 import ChartTwo from '../../components/Charts/ChartTwo';
 import TableThree from '../../components/Tables/TableThree';
-import SwitcherThree from '../../components/Switchers/SwitcherThree';
+import Message from '../../components/Tables/Messages';
+import Suspension from '../../components/Tables/Suspension'
 
 
 const ECommerce: React.FC = () => {
@@ -98,14 +99,22 @@ const ECommerce: React.FC = () => {
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
         <ChartOne />
-        <ChartTwo />      
+        <ChartTwo />
         <div className="col-span-12 xl:col-span-8">
           <TableThree />
         </div>
-        <div className="col-span-2 xl:col-span-2">
-          Activer/Désactiver un utilisateur
-          <SwitcherThree/>
+        
+        <div className="col-span-12 xl:col-span-4">
+          <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+            <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
+              Activer/Désactiver un utilisateur
+            </h4>
+            <div className="max-h-[350px] overflow-auto">
+              <Suspension/>
+            </div>
+          </div>
         </div>
+        <Message/>
       </div>
     </>
   );
