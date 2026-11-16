@@ -16,6 +16,15 @@ export const formatDate = (value?: string) => {
   });
 };
 
+/** Date de création : createdAt, sinon l'horodatage contenu dans l'ObjectId MongoDB. */
+export const createdAtOf = (doc: { _id?: string; createdAt?: string }) => {
+  if (doc.createdAt) return doc.createdAt;
+  if (doc._id && /^[a-f0-9]{24}$/i.test(doc._id)) {
+    return new Date(parseInt(doc._id.slice(0, 8), 16) * 1000).toISOString();
+  }
+  return undefined;
+};
+
 export const errorMessage = (error: any, fallback: string) =>
   error?.response?.data?.message || fallback;
 

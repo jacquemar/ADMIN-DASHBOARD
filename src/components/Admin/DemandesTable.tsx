@@ -16,6 +16,7 @@ import {
   Tone,
   errorMessage,
   formatDate,
+  createdAtOf,
 } from './ui';
 
 type Status = 'pending' | 'approved' | 'rejected';
@@ -211,7 +212,7 @@ const DemandesTable = ({ compact = false }: { compact?: boolean }) => {
                       {d.phoneNumber && <p className="text-xs text-body">{d.phoneNumber}</p>}
                     </td>
                     <td className="hidden whitespace-nowrap px-5 py-3 text-sm sm:table-cell">
-                      {formatDate(d.createdAt || d.date)}
+                      {formatDate(createdAtOf(d) || d.date)}
                     </td>
                     <td className="px-5 py-3">
                       <Badge tone={STATUS[s].tone}>{STATUS[s].label}</Badge>

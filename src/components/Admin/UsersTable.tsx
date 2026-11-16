@@ -24,6 +24,7 @@ import {
   TableMessage,
   errorMessage,
   formatDate,
+  createdAtOf,
 } from './ui';
 
 type User = {
@@ -253,7 +254,7 @@ const UsersTable = () => {
                       )}
                     </td>
                     <td className="hidden whitespace-nowrap px-5 py-3 text-sm sm:table-cell">
-                      {formatDate(u.createdAt)}
+                      {formatDate(createdAtOf(u))}
                     </td>
                     <td className="px-5 py-3">
                       <div className="flex items-center justify-end gap-1">
