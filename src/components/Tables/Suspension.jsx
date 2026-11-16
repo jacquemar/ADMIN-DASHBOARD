@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 import { toast } from 'react-toastify';
 
 const UserManagementComponent = () => {
@@ -10,7 +10,7 @@ const UserManagementComponent = () => {
   }, []);
 
   const fetchUsers = () => {
-    axios.get('https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/users')
+    api.get('/users')
       .then(response => {
         setUsers(response.data);
         console.log(response.data);
@@ -24,7 +24,7 @@ const UserManagementComponent = () => {
   const handleToggleActive = async (userName, currentState) => {
     try {
       const endpoint = currentState ? 'deactivate-profile' : 'activate-profile';
-      await axios.patch(`https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/${endpoint}/${userName}`);
+      await api.patch(`/${endpoint}/${userName}`);
       fetchUsers();
       toast.success(`Profil ${currentState ? 'désactivé' : 'activé'} avec succès`);
     } catch (error) {
@@ -35,7 +35,7 @@ const UserManagementComponent = () => {
 
   const handleToggleSuspension = async (userName, isSuspended) => {
     try {
-      await axios.patch(`https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/users/${userName}/toggle-suspension`);
+      await api.patch(`/users/${userName}/toggle-suspension`);
       fetchUsers();
       toast.success(`Compte ${isSuspended ? 'réactivé' : 'suspendu'} avec succès`);
     } catch (error) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 
 
 const DevisList = () => {
@@ -8,7 +8,7 @@ const DevisList = () => {
   useEffect(() => {
     const fetchDevis = async () => {
       try {
-        const response = await axios.get(`https://cfmqbxpsxd.us-east-1.awsapprunner.com/devis`);
+        const response = await api.get('/devis');
         setDevis(response.data);
       } catch (error) {
         console.error('Erreur lors de la récupération des devis:', error);

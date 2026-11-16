@@ -395,7 +395,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  Tableaux
+                  Demandes & utilisateurs
                 </NavLink>
               </li>
               {/* <!-- Menu Item Tables --> */}
@@ -690,17 +690,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               }
                             >
                               Se connecter
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/auth/signup"
-                              className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
-                              }
-                            >
-                              S'inscrire
                             </NavLink>
                           </li>
                         </ul>

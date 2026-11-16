@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 
 const MessagesList = () => {
   const [messages, setMessages] = useState([]);
@@ -7,7 +7,7 @@ const MessagesList = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await axios.get(`https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/messages`);
+        const response = await api.get('/messages');
         setMessages(response.data);
       } catch (error) {
         console.error('Erreur lors de la récupération des messages:', error);

@@ -1,8 +1,15 @@
-
-FROM node:18-alpine
+# --- Build ---
+FROM node:18-alpine AS build
 WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
 COPY . .
-RUN npm install
+ARG VITE_API_URL=https://api-connect2card.incantix.net/api
+ENV VITE_API_URL=$VITE_API_URL
 RUN npm run build
-EXPOSE 5173
-CMD npm run preview
+
+# --- Serve ---
+FROM nginx:1.27-alpine
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80

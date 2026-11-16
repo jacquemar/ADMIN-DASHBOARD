@@ -1,10 +1,19 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ClickOutside from '../ClickOutside';
 import UserOne from '../../images/user/user-01.png';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { user, logout } = useAuthContext();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    setDropdownOpen(false);
+    navigate('/auth/signin');
+  };
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -15,9 +24,9 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Arnaud Timite
+            {user?.name || 'Utilisateur'}
           </span>
-          <span className="block text-xs">Ingénieur Logiciel</span>
+          <span className="block text-xs">{user?.email || 'user@example.com'}</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
@@ -119,7 +128,10 @@ const DropdownUser = () => {
               </Link>
             </li>
           </ul>
-          <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+          <button 
+            onClick={handleLogout}
+            className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+          >
             <svg
               className="fill-current"
               width="22"

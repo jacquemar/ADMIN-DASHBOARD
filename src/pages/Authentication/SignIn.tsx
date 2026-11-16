@@ -1,10 +1,40 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 const SignIn: React.FC = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const { login, loading } = useAuthContext();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Afficher le message de succès après inscription
+  useEffect(() => {
+    if (location.state?.message) {
+      setSuccessMessage(location.state.message);
+      // Nettoyer le state pour éviter que le message persiste
+      navigate(location.pathname, { replace: true });
+    }
+  }, [location.state, navigate, location.pathname]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    
+    const success = await login(email, password);
+    if (success) {
+      navigate('/');
+    } else {
+      setError('Email ou mot de passe incorrect');
+    }
+  };
+
   return (
     <>
       <Breadcrumb pageName="Se connecter" />
@@ -155,7 +185,17 @@ const SignIn: React.FC = () => {
                 Se connecter
               </h2>
 
-              <form>
+              <form onSubmit={handleSubmit}>
+                {successMessage && (
+                  <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
+                    {successMessage}
+                  </div>
+                )}
+                {error && (
+                  <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                    {error}
+                  </div>
+                )}
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Email
@@ -163,7 +203,9 @@ const SignIn: React.FC = () => {
                   <div className="relative">
                     <input
                       type="email"
-                      placeholder="Enter your email"
+                      placeholder="Entrez votre email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
@@ -194,7 +236,9 @@ const SignIn: React.FC = () => {
                   <div className="relative">
                     <input
                       type="password"
-                      placeholder="6+ Characters, 1 Capital letter"
+                      placeholder="Entrez votre mot de passe"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
@@ -225,8 +269,9 @@ const SignIn: React.FC = () => {
                 <div className="mb-5">
                   <input
                     type="submit"
-                    value="Se connecter"
-                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
+                    value={loading ? "Connexion..." : "Se connecter"}
+                    disabled={loading}
+                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
 
@@ -266,15 +311,6 @@ const SignIn: React.FC = () => {
                   </span>
                   Se connecter avec Google
                 </button>
-
-                <div className="mt-6 text-center">
-                  <p>
-                    Vous avez pas de compte?{' '}
-                    <Link to="/auth/signup" className="text-primary">
-                      Inscrivez-vous
-                    </Link>
-                  </p>
-                </div>
               </form>
             </div>
           </div>
