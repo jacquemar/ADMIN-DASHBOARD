@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 
 const TableThree = () => {
-  const [demandes, setDemandes] = useState([]);
+  const [demandes, setDemandes] = useState<any[]>([]);
 
   useEffect(() => {
     fetchDemandes();
@@ -10,22 +10,22 @@ const TableThree = () => {
 
   const fetchDemandes = () => {
     // Récupérer les informations des demandes
-    axios.get('https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/demandes')
-      .then(response => {
+    api.get('/demandes')
+      .then((response: any) => {
         setDemandes(response.data);
         console.log(response.data);  // Affichez les données récupérées dans la console
       })
-      .catch(error => {
+      .catch((error: any) => {
         console.error('Erreur lors de la récupération des informations des demandes:', error);
       });
   };
 
-  const handleApprove = async (demandeId) => {
+  const handleApprove = async (demandeId: string) => {
     try {
-      await axios.post(`https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/demandes/${demandeId}/approve`);
+      await api.post(`/demandes/${demandeId}/approve`);
       console.log('Demande approuvée avec succès!')
       // Met à jour l'état des demandes localement
-      setDemandes(demandes.map(demande =>
+      setDemandes(demandes.map((demande: any) =>
         demande._id === demandeId ? { ...demande, status: 'approved' } : demande
       ));
     } catch (error) {
@@ -34,12 +34,12 @@ const TableThree = () => {
     }
   };
 
-  const handleReject = async (demandeId) => {
+  const handleReject = async (demandeId: string) => {
     try {
-      await axios.post(`https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/demandes/${demandeId}/reject`);
+      await api.post(`/demandes/${demandeId}/reject`);
       console.log('Demande rejetée avec succès!')
       // Met à jour l'état des demandes localement
-      setDemandes(demandes.map(demande =>
+      setDemandes(demandes.map((demande: any) =>
         demande._id === demandeId ? { ...demande, status: 'rejected' } : demande
       ));
     } catch (error) {
@@ -47,12 +47,12 @@ const TableThree = () => {
     }
   };
 
-  const handleDelete = async (demandeId) => {
+  const handleDelete = async (demandeId: string) => {
     try {
-      await axios.delete(`https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/demandes/${demandeId}`);
+      await api.delete(`/demandes/${demandeId}`);
       console.log('Demande supprimée avec succès!')
       // Met à jour l'état des demandes localement en supprimant la demande supprimée
-      setDemandes(demandes.filter(demande => demande._id !== demandeId));
+      setDemandes(demandes.filter((demande: any) => demande._id !== demandeId));
     } catch (error) {
       console.error('Erreur lors de la suppression de la demande :', error);
     

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 
 
 const TableTwo = () => {
 
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<any[]>([]);
 
   useEffect(() => {
     fetchUsers();
@@ -12,23 +12,23 @@ const TableTwo = () => {
   }, []);
 
   const fetchUsers = () => {
-    axios.get('https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/users')
-      .then(response => {
+    api.get('/users')
+      .then((response: any) => {
         setUsers(response.data);
         console.log(response.data); 
       })
-      .catch(error => {
-        console.error('Erreur lors de la récupération des informations des demandes:', error);
+      .catch((error: any) => {
+        console.error('Erreur lors de la récupération des utilisateurs:', error);
       });
   };
 
-  const handleDelete = async (userId) => {
+  const handleDelete = async (userId: string) => {
     try {
-      await axios.delete(`https://cfmqbxpsxd.us-east-1.awsapprunner.com/api/user/${userId}`);
+      await api.delete(`/user/${userId}`);
       console.log('user supprimé avec succès!')
-      setUsers(users.filter(user => user._id !== userId));
+      setUsers(users.filter((user: any) => user._id !== userId));
     } catch (error) {
-      console.error('Erreur lors de la suppression de la demande :', error);
+      console.error('Erreur lors de la suppression de l\'utilisateur :', error);
     
     }
   };

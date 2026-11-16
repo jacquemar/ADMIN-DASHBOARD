@@ -1,10 +1,50 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 const SignUp: React.FC = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const { register, loading } = useAuthContext();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    // Validation des champs
+    if (!name || !email || !password || !confirmPassword) {
+      setError('Tous les champs sont obligatoires');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError('Les mots de passe ne correspondent pas');
+      return;
+    }
+
+    if (password.length < 6) {
+      setError('Le mot de passe doit contenir au moins 6 caractères');
+      return;
+    }
+
+    const success = await register(name, email, password);
+    if (success) {
+      // Inscription réussie, redirection vers la connexion
+      navigate('/auth/signin', { 
+        state: { message: 'Inscription réussie ! Vous pouvez maintenant vous connecter.' }
+      });
+    } else {
+      setError('Erreur lors de l\'inscription. Vérifiez vos informations.');
+    }
+  };
+
   return (
     <>
       <Breadcrumb pageName="S'inscrire'" />
@@ -154,7 +194,12 @@ const SignUp: React.FC = () => {
                 S'inscrire'
               </h2>
 
-              <form>
+              <form onSubmit={handleSubmit}>
+                {error && (
+                  <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                    {error}
+                  </div>
+                )}
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Nom
@@ -163,6 +208,8 @@ const SignUp: React.FC = () => {
                     <input
                       type="text"
                       placeholder="Entrez votre nom complet"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
@@ -198,6 +245,8 @@ const SignUp: React.FC = () => {
                     <input
                       type="email"
                       placeholder="Entrez votre email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
@@ -229,6 +278,8 @@ const SignUp: React.FC = () => {
                     <input
                       type="password"
                       placeholder="Entrez votre mot de passe"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
@@ -263,7 +314,9 @@ const SignUp: React.FC = () => {
                   <div className="relative">
                     <input
                       type="password"
-                      placeholder="confirmez votre mot de passe"
+                      placeholder="Confirmez votre mot de passe"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
@@ -294,8 +347,9 @@ const SignUp: React.FC = () => {
                 <div className="mb-5">
                   <input
                     type="submit"
-                    value="Créer mon compte"
-                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
+                    value={loading ? "Création du compte..." : "Créer mon compte"}
+                    disabled={loading}
+                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
 
